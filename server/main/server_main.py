@@ -9,9 +9,6 @@ import tinydb
 USERS_PATH = "../data/users"
 USERS_DATABASE_PATH = f"{USERS_PATH}/db.json"
 
-if not os.path.isdir(USERS_PATH):
-    os.makedirs(USERS_PATH)
-
 users = tinydb.TinyDB(USERS_DATABASE_PATH)
 
 
