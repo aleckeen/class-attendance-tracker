@@ -1,6 +1,6 @@
-*/__pycache__/
-*/data/
-*/.idea/
+*__pycache__/
+*data/
+*.idea/
 *.py[cod]
 *$py.class
-.project
+*.project
