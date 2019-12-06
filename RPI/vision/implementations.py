@@ -3,14 +3,14 @@
 
 import os
 from enum import Enum
-from io import BytesIO
-from typing import List, Tuple, Optional, Union, Iterator
 
 import cv2
 import face_recognition
 import numpy as np
 from PIL import Image
+from io import BytesIO
 from picamera import PiCamera
+from typing import List, Tuple, Optional, Union, Iterator
 
 # Settings
 HAARCASCADES = '/usr/share/opencv/haarcascades'
@@ -164,6 +164,9 @@ class Frame:
     def color(self, mode: Color):
         self.frame = cv2.cvtColor(self.frame, mode)
 
+    def copy(self) -> 'Frame':
+        return Frame(self.frame.copy())
+
 
 class CameraFeed:
     camera = None
@@ -229,15 +232,9 @@ class FaceRecognizer:
     encodings: List[np.ndarray] = []
     ids: List[str] = []
 
-    def __init__(self, faces: List[Frame], ids: List[str]):
-        if not len(faces) == len(ids):
-            print("Faces and ids don't correspond")
-            print("Please make sure there are equal amount of faces and ids")
-            raise EncoderLabelError("Faces and ids aren't the same length")
-        for i in range(len(faces)):
-            frame = faces[i].frame
-            id_ = ids[i]
-            encoding = face_encoding(frame)
+    def __init__(self, faces: Iterator[Tuple[Frame, str]]):
+        for frame, id_ in faces:
+            encoding = face_encoding(frame.frame)
             if encoding is None:
                 print(f"An error occurred during the encoding of the face labeled {id_}")
                 print("Please make sure the image is proper")

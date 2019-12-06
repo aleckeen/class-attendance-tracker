@@ -51,10 +51,6 @@ class Client:
     def __del__(self):
         self.disconnect()
 
-    @staticmethod
-    def create() -> 'Client':
-        return Client(create_tcp_socket())
-
     def connect(self, host: str, port: int) -> ConnectionStatus:
         if self.is_connected:
             return ConnectionStatus.ALREADY_CONNECTED
@@ -119,4 +115,4 @@ class Server:
                 self.clients.append(client)
 
     def new_client(self, client: Client) -> bool:
-        pass
+        return True

@@ -1,5 +1,7 @@
 *__pycache__/
 *data/
+*test/
+*venv/
 *.idea/
 *.py[cod]
 *$py.class
