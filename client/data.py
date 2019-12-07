@@ -1,6 +1,5 @@
 import os
 
-import utils
 import config as _config
 
 import pytz
@@ -8,19 +7,13 @@ import pytz
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 CONFIG_PATH = "data/config.json"
-DETECTED_FACES_PATH = "data/detected_faces"
-KNOWN_FACES_PATH = "data/known_faces"
-KNOWN_FACES_INFO_PATH = f"{KNOWN_FACES_PATH}/info.json"
 
 FOLDERS = [
-    "data",
-    DETECTED_FACES_PATH,
-    KNOWN_FACES_PATH
+    "data"
 ]
 
 FILES = [
     CONFIG_PATH,
-    KNOWN_FACES_INFO_PATH
 ]
 
 CONFIG_TEMPLATE = {
@@ -45,15 +38,7 @@ CONFIG_TEMPLATE = {
     "settings": {
         "help": "Data to be used by the application internally.",
         "data": {
-            "timezone": {"default": "UTC", "help": "Timezone of where you live."},
-            "save-images": {"default": False, "help": "Saves every detected face in a folder."}
-        }
-    },
-    "pi": {
-        "help": "Information about this Raspberry PI device.",
-        "data": {
-            "pi-id": {"help": "A distinct ID code, so we know what device we are working on."},
-            "location": {"help": "Location of this device."}
+            "timezone": {"default": "UTC", "help": "Timezone of where you live."}
         }
     }
 }
@@ -69,4 +54,3 @@ if res:
     exit(1)
 
 tz = pytz.timezone(config["settings"]['timezone'])
-utils.tz = tz

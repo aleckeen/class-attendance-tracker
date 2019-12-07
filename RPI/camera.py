@@ -15,7 +15,7 @@ from utils import info
 camera = vision.vision.CameraFeed.create_picamera()
 recognizer: vision.vision.FaceRecognizer
 reports: List[Dict[str, Any]] = []
-current_frame: vision.vision.Frame
+current_frame: vision.vision.Frame = camera.capture()
 
 
 def continuous_capture():
@@ -43,13 +43,18 @@ def scan_face():
     info("[Scanner] Scanning.")
     while True:
         frame = current_frame.copy()
+        faces = vision.vision.FaceDetector.opencv(frame)
+        if len(faces) == 0:
+            connection.client.send("!")
+            continue
         faces = vision.vision.FaceDetector.ageitgey(frame)
         if len(faces) != 1:
             info("[Scanner] Detection failure.")
+            connection.client.send("!")
             continue
         info("[Scanner] Successfully scanned a face.")
+        connection.client.send("OK")
         break
-    connection.client.send("OK")
     student_id = connection.client.recv()
     student_name = connection.client.recv()
     classroom = connection.client.recv()
