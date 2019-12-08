@@ -1,5 +1,6 @@
-# Class Attendance Tracker
-This is my first big project so the code is a little messy! Also
+Class Attendance Tracker
+========================
+This is my first big project so the code is a little messy! Also,
 I don't have the habit of commenting my code, so there is that.
 
 The goal of this project is to automate tracking students
@@ -16,16 +17,27 @@ to run this application. Server's purpose is to create a connection
 point between clients and cameras. Client application is where we'll
 connect to cameras and change their settings.
 
-# Installation (Raspberry PI)
+***
+
+Installation
+------------
+
+The steps below will take you through installing the application.
+
+* Use Git to clone the repository or you can directly download it
+  by using the 'Download ZIP' button.  
+  `$ git clone https://github.com/auriomalley/class-attendance-tracker.git`
+  
+* Change directory into the newly created **class-attendance-tracker**
+  folder.  
+  `$ cd class-attendance-tracker`
+
+#### Raspberry PI
+
 I tested this with a Raspberry PI model 4B 2GB RAM version with
 Raspbian installed. I used the lite version of Raspbian but it
 should work with other versions as well.
 
-First of all you'll need to clone (or download) the repository.
-Before doing that make sure you have `git` installed.\
-`$ git clone https://github.com/auriomalley/class-attendance-tracker.git`\
-Change directory into the newly created `class-attendance-tracker` directory.\
-`$ cd class-attendance-tracker`\
 Before running the application we need to install some dependencies.
 Running the below code installs some libraries needed by Pillow and
 OpenCV.\
@@ -48,13 +60,11 @@ This first run will generate a `config.json` file in the `RPI/data` directory.
 You can change your settings from there. Also you have to change `null`
 values, otherwise application will raise error.
 
-# Installation (Client)
+#### Client
+
 Client will allow us to connect to the main server and the database,
 so we can add students and receive reports. Client installation is simple.\
-First download the files. This step is same way we did in the Raspberry PI 
-installation.\ 
-`$ git clone https://github.com/auriomalley/class-attendance-tracker.git`\
-`$ cd class-attendance-tracker`\
+
 There are not many dependencies we need to install. We can use `pip` for that.
 I also recommend using a virtual environment.\
 `$ pip install pymongo pytz pandas`\
@@ -63,12 +73,10 @@ Then run the application.
 After this first run you can change your config settings in the 
 `client/data/config.json` file.
  
-# Installation (Server)
+#### Server
+
 Server allows us to connect the clients to the Raspberry PIs.\
-First download the files. This step is same way we did in the Raspberry PI 
-installation.\
-`$ git clone https://github.com/auriomalley/class-attendance-tracker.git`\
-`$ cd class-attendance-tracker`\
+
 `$ pip install pytz tinydb`\
 You can use a virtual environment if you'd like to.\
 Then run the application.
@@ -84,7 +92,10 @@ this documentation https://docs.docker.com/install/linux/docker-ce/ubuntu/.\
    -e MONGO_INITDB_ROOT_PASSWORD=password mongo`\
 This will run a database.
 
-# How to use it?
+***
+
+How to use it?
+--------------
 After you installed the application, you can start by running the server.
 Raspberry PI doesn't run the code on startup so make sure you have that
 set up, otherwise you'll have to connect to the PI through `ssh` to start
