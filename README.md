@@ -5,7 +5,7 @@ I don't have the habit of commenting my code, so there is that.
 
 The goal of this project is to automate tracking students
 by recognizing their faces. When a student enters to a class,
-the camera (a Raspberry PI in this case) recognizes their faces
+the camera (a Raspberry Pi in this case) recognizes their faces
 and keeps a record of this in a database. Later we can find
 who attended the class by analyzing these records.
 
@@ -32,9 +32,9 @@ The steps below will take you through installing the application.
   folder.  
   `$ cd class-attendance-tracker`
 
-#### Raspberry PI
+#### Raspberry Pi
 
-I tested this with a Raspberry PI model 4B 2GB RAM version with
+I tested this with a Raspberry Pi model 4B 2GB RAM version with
 Raspbian installed. I used the lite version of Raspbian but it
 should work with other versions as well.
 
@@ -75,7 +75,7 @@ After this first run you can change your config settings in the
  
 #### Server
 
-Server allows us to connect the clients to the Raspberry PIs.\
+Server allows us to connect the clients to the Raspberry Pis.\
 
 `$ pip install pytz tinydb`\
 You can use a virtual environment if you'd like to.\
@@ -97,8 +97,8 @@ This will run a database.
 How to use it?
 --------------
 After you installed the application, you can start by running the server.
-Raspberry PI doesn't run the code on startup so make sure you have that
-set up, otherwise you'll have to connect to the PI through `ssh` to start
+Raspberry Pi doesn't run the code on startup so make sure you have that
+set up, otherwise you'll have to connect to the Pi through `ssh` to start
 the application every time. There is a tutorial on how to set it up
 at https://www.raspberrypi.org/documentation/linux/usage/rc-local.md. Now
 you can run the client application and start adding students.
