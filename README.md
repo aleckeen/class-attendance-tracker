@@ -67,7 +67,7 @@ so we can add students and receive reports. Client installation is simple.
 
 There are not many dependencies we need to install. We can use `pip` for that.
 I also recommend using a virtual environment.  
-`$ pip install pymongo pytz pandas`  
+`$ pip install pymongo pytz`  
 Then run the application.
 `$ PYTHONPATH=./modules python3 client/main.py`  
 After this first run you can change your config settings in the 
