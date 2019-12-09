@@ -1,11 +1,37 @@
+from typing import Dict, Any, List
+
 import connection
 import data
 import database
 
 import datetime
 import json
-import pandas as pd
 import pytz
+
+
+def print_table(table: Dict[str, List[Any]]):
+    cols = []
+    lengths = []
+
+    for key in table.keys():
+        length = len(key)
+        for item in table.get(key):
+            if len(item) > length:
+                length = len(item)
+        cols.append(key)
+        lengths.append(length)
+
+    for key, length in zip(cols, lengths):
+        print(("{:<" + str(length) + "} ").format(key), end="")
+    print()
+    for key, length in zip(cols, lengths):
+        print(f"{'=' * length} ", end="")
+    print()
+
+    for items in zip(*[items[1] for items in table.items()]):
+        for i in range(len(items)):
+            print(("{:<" + str(lengths[i]) + "} ").format(items[i]), end="")
+        print()
 
 
 def show_reports():
@@ -57,9 +83,7 @@ def show_reports():
         table["Name"].append(student["name"])
         table["Classroom"].append(student["classroom"])
         table["Count"].append(database.reports_col.count_documents(query))
-    table = pd.DataFrame(data=table)
-    table.set_index("ID")
-    print(table)
+    print_table(table)
 
 
 def add_new_student():
