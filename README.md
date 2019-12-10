@@ -54,11 +54,7 @@ should work with other versions as well.
   `$ sudo pip3 install pytz face_recognition tinydb`  
 
 * Run the application.  
-  `$ PYTHONPATH=./modules python3 RPI/main.py`  
-  > Setting _PYTHONPATH_ correctly is really important. It
-  should point to the _modules_ folder in the _class-attendance-tracker_
-  folder, otherwise it won't work since I haven't figured out an elegant 
-  way of managing it.
+  `$ python3 RPI/main.py`  
 
 * This first run will generate a _config.json_ file in the _RPI/data_
   directory. Go there and change the config settings.  
@@ -77,11 +73,7 @@ so we can add students and receive reports. Installation is pretty straightforwa
   no packages that would cause trouble later.
 
 * Run the application.  
-  `$ PYTHONPATH=./modules python3 client/main.py`  
-  > Setting _PYTHONPATH_ correctly is really important. It
-  should point to the _modules_ folder in the _class-attendance-tracker_
-  folder, otherwise it won't work since I haven't yet figured out an elegant 
-  way of managing it.
+  `$ python3 client/main.py`  
 
 * This first run will generate a _config.json_ file in the _client/data_
   directory. Go there and change the config settings.  
@@ -98,11 +90,7 @@ Server allows us to connect the clients to the Raspberry Pis.
   no packages that would cause trouble later.
 
 * Run the application.  
-  `$ PYTHONPATH=./modules python3 server/main.py`  
-  > Setting _PYTHONPATH_ correctly is really important. It
-  should point to the _modules_ folder in the _class-attendance-tracker_
-  folder, otherwise it won't work since I haven't yet figured out an elegant 
-  way of managing it.
+  `$ python3 server/main.py`  
 
 * This first run will generate a _config.json_ file in the _server/data_
   directory. Go there and change the config settings.  
