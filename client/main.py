@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 import os
 
-sys.path.append(Path(os.getcwd()).join("../modules"))
+sys.path.append(Path(os.getcwd()).joinpath("../modules"))
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 from typing import Dict, Any, List
