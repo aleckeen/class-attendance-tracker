@@ -22,7 +22,9 @@ connect to cameras and change their settings.
 Installation
 ------------
 
-The steps below will take you through installing the application.
+The steps below will take you through installing the application.  
+**Note:** This is only tested in Linux, so if you are using MacOS
+or Windows it may not work properly.
 
 * Use Git to clone the repository or you can directly download it
   by using the 'Download ZIP' button.  
