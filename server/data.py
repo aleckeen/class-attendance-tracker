@@ -1,11 +1,7 @@
-import os
-
 import tinydb
 import utils
 import config as _config
 import pytz
-
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 CONFIG_PATH = "data/config.json"
 LOG_PATH = "data/log.json"

@@ -1,11 +1,7 @@
-import os
-
 import utils
 import config as _config
 
 import pytz
-
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 CONFIG_PATH = "data/config.json"
 DETECTED_FACES_PATH = "data/detected_faces"

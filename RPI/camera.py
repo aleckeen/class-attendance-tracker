@@ -58,6 +58,7 @@ def scan_face():
     student_id = connection.client.recv()
     student_name = connection.client.recv()
     classroom = connection.client.recv()
+    reload = connection.client.recv() == "RELOAD"
     face_bin = io.BytesIO()
     faces[0].write(face_bin, ".jpg")
     student = {
@@ -67,6 +68,9 @@ def scan_face():
         "face": face_bin.getvalue()
     }
     database.students_col.insert_one(student)
+    if reload:
+        database.sync_database()
+        update_recognizer()
 
 
 def detect_students():

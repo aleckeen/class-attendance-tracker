@@ -1,3 +1,5 @@
+from typing import Tuple, Optional
+
 import pymongo.errors
 import tinydb
 
@@ -21,33 +23,43 @@ def connect_to_mongo():
     global students_col
     global reports_col
     info("[Database] Attempting to connect to the Mongo database.")
-    try:
-        remote_db = pymongo.MongoClient(mongo_remote_url, tz_aware=True)
-        remote_db.server_info()
-        is_connected_mongo = True
+    success, remote_db = get_mongo_client(mongo_remote_url)
+    if success:
         remote_db = remote_db.get_database("class-attendance-tracker")
         students_col = remote_db.get_collection("students")
         reports_col = remote_db.get_collection("reports")
         info("[Database] Mongo database connection is successful.")
-    except pymongo.errors.ServerSelectionTimeoutError:
-        is_connected_mongo = False
+    else:
         info("[Database] Mongo database connection is failed.")
+    is_connected_mongo = success
+
+
+def get_mongo_client(url) -> Tuple[bool, Optional[pymongo.MongoClient]]:
+    try:
+        client = pymongo.MongoClient(url, tz_aware=True)
+        client.server_info()
+        return True, client
+    except pymongo.errors.ServerSelectionTimeoutError:
+        return False, None
 
 
 def sync_database():
+    success, client = get_mongo_client(mongo_remote_url)
     info("[Database] Syncing the local database.")
-    if not is_connected_mongo:
+    if not success:
         info("[Database] Cannot sync the local database, server is unavailable.")
         return
+    db = client.get_database("class-attendance-tracker")
+    students_collection = db.get_collection("students")
     ids = []
-    for student in students_col.find({}, {"face": 0}):
+    for student in students_collection.find({}, {"face": 0}):
         inserted_id = str(student['_id'])
         res = students_info.search(tinydb.where('inserted-id') == inserted_id)
         ids.append(inserted_id)
         if len(res) == 1:
             continue
         info(f"[Database] Adding a new student to the database with id {student['id']}.")
-        face = students_col.find_one({'_id': student['_id']}, {"face": 1})['face']
+        face = students_collection.find_one({'_id': student['_id']}, {"face": 1})['face']
         face = vision.vision.Frame.open_bytes(face)
         relative_path = f"{inserted_id}.jpg"
         face.save(f"{data.KNOWN_FACES_PATH}/{relative_path}")

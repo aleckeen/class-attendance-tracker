@@ -5,9 +5,8 @@ from enum import Enum
 
 import data
 import networking
+import database
 from utils import info
-
-users = tinydb.TinyDB(data.USERS_PATH)
 
 
 class Role(Enum):
@@ -83,7 +82,7 @@ class Server(networking.server.Server):
         password = client.recv()
         info(
             f"[Server] A new client attempted to connect: address: {client.sock_name}, username: {username}")
-        res = users.search((tinydb.where("username") == username) & (tinydb.where("password") == password))
+        res = database.users.search((tinydb.where("username") == username) & (tinydb.where("password") == password))
         if len(res) != 1:
             client.send("!")
             info(f"[Server] Client connection failed. Wrong password or username. "
