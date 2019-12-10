@@ -1,9 +1,6 @@
-import os
 import pytz
 
 import config as _config
-
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 CONFIG_PATH = "data/config.json"
 

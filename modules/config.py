@@ -1,22 +1,24 @@
 import json
-import os
+from pathlib import Path
 from typing import Dict, Any, List
 
 
 def create_folders(folders: List[str]):
     for folder in folders:
-        if not os.path.isdir(folder):
-            os.mkdir(folder)
+        path = Path(folder)
+        if not path.is_dir():
+            path.mkdir()
 
 
 def create_files(files: List[str]):
     for file in files:
-        if not os.path.isfile(file):
-            open(file, "w").close()
+        path = Path(file)
+        if not path.is_file():
+            path.touch()
 
 
 def load_config(path: str) -> Dict[str, Any]:
-    with open(path, "rb") as f:
+    with open(Path(path), "rb") as f:
         try:
             config = json.load(f)
         except ValueError:
@@ -25,7 +27,7 @@ def load_config(path: str) -> Dict[str, Any]:
 
 
 def save_config(path: str, config: Dict[str, Any]):
-    with open(path, "w") as f:
+    with open(Path(path), "w") as f:
         json.dump(config, f, indent=2)
 
 

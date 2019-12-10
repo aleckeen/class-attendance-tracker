@@ -1,3 +1,11 @@
+from pathlib import Path
+
+import sys
+import os
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+sys.path.append(str(Path(os.getcwd()).parents[0].joinpath("modules")))
+
 from typing import Dict, Any, List
 
 import connection
@@ -16,8 +24,9 @@ def print_table(table: Dict[str, List[Any]]):
     for key in table.keys():
         length = len(key)
         for item in table.get(key):
-            if len(item) > length:
-                length = len(item)
+            item_len = len(str(item))
+            if item_len > length:
+                length = item_len
         cols.append(key)
         lengths.append(length)
 
@@ -119,6 +128,11 @@ def add_new_student():
     connection.client.send(f"{student['id']}")
     connection.client.send(f"{student['name']}")
     connection.client.send(f"{student['classroom']}")
+    res = input("Do you want to reload the new student information now? [y/N]>")
+    if res.upper() == "Y":
+        connection.client.send("RELOAD")
+    else:
+        connection.client.send("!")
     connection.client.send("UNBIND")
     print("New student has been successfully created:")
     print(f"\tID={student['id']}")
