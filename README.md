@@ -71,7 +71,7 @@ Client will allow us to connect to the main server and the database,
 so we can add students and receive reports. Installation is pretty straightforward.  
 
 * Install needed dependencies.  
-  `$ pip install pymongo pytz`  
+  `$ pip3 install pymongo pytz`  
   **Note:** I recommend using a virtual environment since there are
   no packages that would cause trouble later.
 
@@ -92,7 +92,7 @@ so we can add students and receive reports. Installation is pretty straightforwa
 Server allows us to connect the clients to the Raspberry Pis.
 
 * Install needed dependencies.  
-  `$ pip install tinydb pytz`  
+  `$ pip3 install tinydb pytz`  
   **Note:** I recommend using a virtual environment since there are
   no packages that would cause trouble later.
 
