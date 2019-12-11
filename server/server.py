@@ -77,7 +77,7 @@ class Server(networking.server.Server):
 
     def new_client(self, client: Client) -> bool:
         client.server = self
-        client.sock_name = client.tcp_socket.getsockname()
+        client.sock_name = client.tcp_socket.getpeername()
         username = client.recv()
         password = client.recv()
         info(
