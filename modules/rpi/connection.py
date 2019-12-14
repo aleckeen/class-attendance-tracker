@@ -60,3 +60,6 @@ def recv_from_server():
         t = threading.Thread(target=client.respond_to_server)
         t.daemon = True
         t.start()
+
+
+recv_from_server()

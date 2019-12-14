@@ -1,8 +1,6 @@
-from typing import Tuple, Optional
-
-import pymongo.errors
 import tinydb
 
+from modules.database import get_mongo_client
 from modules.rpi import data
 from modules.rpi import vision
 from modules.utils import info
@@ -10,37 +8,7 @@ from modules.utils import info
 mongo_remote_url = f"mongodb://{data.config['mongo']['username']}:{data.config['mongo']['password']}@" \
                    f"{data.config['mongo']['host']}:{data.config['mongo']['port']}"
 
-students_col: pymongo.collection.Collection
-reports_col: pymongo.collection.Collection
-
-is_connected_mongo = False
-
 students_info = tinydb.TinyDB(data.KNOWN_FACES_INFO_PATH)
-
-
-def connect_to_mongo():
-    global is_connected_mongo
-    global students_col
-    global reports_col
-    info("[Database] Attempting to connect to the Mongo database.")
-    success, remote_db = get_mongo_client(mongo_remote_url)
-    if success:
-        remote_db = remote_db.get_database("class-attendance-tracker")
-        students_col = remote_db.get_collection("students")
-        reports_col = remote_db.get_collection("reports")
-        info("[Database] Mongo database connection is successful.")
-    else:
-        info("[Database] Mongo database connection is failed.")
-    is_connected_mongo = success
-
-
-def get_mongo_client(url) -> Tuple[bool, Optional[pymongo.MongoClient]]:
-    try:
-        client = pymongo.MongoClient(url, tz_aware=True)
-        client.server_info()
-        return True, client
-    except pymongo.errors.ServerSelectionTimeoutError:
-        return False, None
 
 
 def sync_database():

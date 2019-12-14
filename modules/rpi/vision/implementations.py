@@ -1,3 +1,4 @@
+import concurrent.futures.process
 import os
 from enum import Enum
 
@@ -239,11 +240,21 @@ class FaceRecognizer:
             self.encodings.append(encoding)
             self.ids.append(id_)
 
-    def recognize(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
-        ids: List[Union[None, str, int]] = []
-        frames: List[Union[Frame]] = []
+    def recognize_one(self, face: Frame) -> Tuple[Union[None, str, int], Frame]:
+        label = recognize_face(face.frame, self.encodings, np.array(self.ids))
+        return label, face
+
+    def recognize_many(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
+        res = []
         for face in faces:
-            label = recognize_face(face.frame, self.encodings, np.array(self.ids))
-            ids.append(label)
-            frames.append(face)
-        return zip(ids, frames)
+            label = self.recognize_one(face)
+            res.append(label)
+        return iter(res)
+
+    def recognize_threaded(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
+        with concurrent.futures.process.ProcessPoolExecutor() as executor:
+            labels = [executor.submit(self.recognize_one, face) for face in faces]
+            res = []
+            for label in concurrent.futures.as_completed(labels):
+                res.append(label.result())
+            return iter(res)
