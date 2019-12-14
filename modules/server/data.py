@@ -9,7 +9,8 @@ LOG_PATH = "data/server/log.json"
 USERS_PATH = "data/server/users.json"
 
 FOLDERS = [
-    "data"
+    "data",
+    "data/server"
 ]
 
 FILES = [

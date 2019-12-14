@@ -10,6 +10,7 @@ KNOWN_FACES_INFO_PATH = f"{KNOWN_FACES_PATH}/info.json"
 
 FOLDERS = [
     "data",
+    "data/rpi",
     DETECTED_FACES_PATH,
     KNOWN_FACES_PATH
 ]
