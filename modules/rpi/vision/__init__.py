@@ -1,2 +1,2 @@
-from vision.implementations import Frame, CameraFeed, FaceDetector, FaceRecognizer
-from vision import implementations
+from modules.rpi.vision.implementations import Frame, CameraFeed, FaceDetector, FaceRecognizer
+from modules.rpi.vision import implementations
