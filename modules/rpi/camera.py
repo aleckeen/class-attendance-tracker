@@ -4,18 +4,19 @@ import bson
 import datetime
 import io
 import threading
+
 from typing import List, Dict, Any
 
-import connection
-import data
-import database
-import vision
-from utils import info
+from modules.rpi import connection
+from modules.rpi import data
+from modules.rpi import database
+from modules.rpi import vision
+from modules.utils import info
 
-camera = vision.vision.CameraFeed.create_picamera()
-recognizer: vision.vision.FaceRecognizer
+camera = vision.CameraFeed.create_picamera()
+recognizer: vision.FaceRecognizer
 reports: List[Dict[str, Any]] = []
-current_frame: vision.vision.Frame = camera.capture()
+current_frame: vision.Frame = camera.capture()
 
 
 def continuous_capture():
@@ -29,13 +30,13 @@ def continuous_capture():
 def update_recognizer():
     global recognizer
     info("[Recognizer] Updating the recognizer instance.")
-    faces: List[vision.vision.Frame] = []
+    faces: List[vision.Frame] = []
     ids: List[str] = []
     for student in database.students_info.all():
-        frame = vision.vision.Frame.open_path(f"{data.KNOWN_FACES_PATH}/{student['face-path']}")
+        frame = vision.Frame.open_path(f"{data.KNOWN_FACES_PATH}/{student['face-path']}")
         faces.append(frame)
         ids.append(student['inserted-id'])
-    recognizer = vision.vision.FaceRecognizer(zip(faces, ids))
+    recognizer = vision.FaceRecognizer(zip(faces, ids))
     info("[Recognizer] Recognizer update finished.")
 
 
@@ -43,11 +44,11 @@ def scan_face():
     info("[Scanner] Scanning.")
     while True:
         frame = current_frame.copy()
-        faces = vision.vision.FaceDetector.opencv(frame)
+        faces = vision.FaceDetector.opencv(frame)
         if len(faces) == 0:
             connection.client.send("!")
             continue
-        faces = vision.vision.FaceDetector.ageitgey(frame)
+        faces = vision.FaceDetector.ageitgey(frame)
         if len(faces) != 1:
             info("[Scanner] Detection failure.")
             connection.client.send("!")
@@ -75,7 +76,7 @@ def scan_face():
 
 def detect_students():
     frame = current_frame.copy()
-    faces = vision.vision.FaceDetector.opencv(frame)
+    faces = vision.FaceDetector.opencv(frame)
     info(f"[Detector] Found {len(faces)} face(s).")
     for student_id, face in recognizer.recognize(faces):
         if student_id == -1:

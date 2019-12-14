@@ -1,11 +1,11 @@
-import utils
-import config as _config
+from modules import utils
+from modules import config as config_manager
 
 import pytz
 
-CONFIG_PATH = "data/config.json"
-DETECTED_FACES_PATH = "data/detected_faces"
-KNOWN_FACES_PATH = "data/known_faces"
+CONFIG_PATH = "data/rpi/config.json"
+DETECTED_FACES_PATH = "data/rpi/detected_faces"
+KNOWN_FACES_PATH = "data/rpi/known_faces"
 KNOWN_FACES_INFO_PATH = f"{KNOWN_FACES_PATH}/info.json"
 
 FOLDERS = [
@@ -54,11 +54,11 @@ CONFIG_TEMPLATE = {
     }
 }
 
-_config.create_folders(FOLDERS)
-_config.create_files(FILES)
-config = _config.load_config(CONFIG_PATH)
-res = _config.check_config(config, CONFIG_TEMPLATE)
-_config.save_config(CONFIG_PATH, config)
+config_manager.create_folders(FOLDERS)
+config_manager.create_files(FILES)
+config = config_manager.load_config(CONFIG_PATH)
+res = config_manager.check_config(config, CONFIG_TEMPLATE)
+config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")

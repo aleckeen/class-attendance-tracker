@@ -1,9 +1,9 @@
-import networking
 import threading
 
-import camera
-import data
-from utils import info
+from modules import networking
+from modules.rpi import camera
+from modules.rpi import data
+from modules.utils import info
 
 address = (data.config['server']['host'], data.config['server']['port'],
            data.config['server']['username'], data.config['server']['password'])
@@ -11,7 +11,7 @@ address = (data.config['server']['host'], data.config['server']['port'],
 is_connected_server = False
 
 
-class Client(networking.client.Client):
+class Client(networking.Client):
     def connection_broke(self):
         global is_connected_server
         info("[Client] Connection broken.")
@@ -37,7 +37,7 @@ def connect_to_server():
     info("[Client] Attempting to connect to the server.")
     client = Client(networking.create_tcp_socket())
     status = client.connect(address[0], address[1])
-    if status == networking.client.ConnectionStatus.CONNECTION_FAILED:
+    if status == networking.ConnectionStatus.CONNECTION_FAILED:
         is_connected_server = False
         info("[Client] Server connection is failed. Connection failure.")
         return

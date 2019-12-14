@@ -3,9 +3,9 @@ from typing import Tuple, Optional
 import pymongo.errors
 import tinydb
 
-import data
-import vision
-from utils import info
+from modules.rpi import data
+from modules.rpi import vision
+from modules.utils import info
 
 mongo_remote_url = f"mongodb://{data.config['mongo']['username']}:{data.config['mongo']['password']}@" \
                    f"{data.config['mongo']['host']}:{data.config['mongo']['port']}"
@@ -60,7 +60,7 @@ def sync_database():
             continue
         info(f"[Database] Adding a new student to the database with id {student['id']}.")
         face = students_collection.find_one({'_id': student['_id']}, {"face": 1})['face']
-        face = vision.vision.Frame.open_bytes(face)
+        face = vision.Frame.open_bytes(face)
         relative_path = f"{inserted_id}.jpg"
         face.save(f"{data.KNOWN_FACES_PATH}/{relative_path}")
         students_info.insert({

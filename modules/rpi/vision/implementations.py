@@ -1,6 +1,3 @@
-# Author:
-# auri@sol <omerfarukcavus@outlook.com>
-
 import os
 from enum import Enum
 
@@ -16,7 +13,6 @@ from typing import List, Tuple, Optional, Union, Iterator
 HAARCASCADES = '/usr/share/opencv/haarcascades'
 RESOLUTION_PICAMERA = (2560, 1920)
 RESOLUTION_OPENCV = (1920, 1080)
-TIMEZONE = 'Europe/Istanbul'
 
 # OpenCV
 face_cascade = cv2.CascadeClassifier(f'{HAARCASCADES}/haarcascade_frontalface_default.xml')
@@ -95,7 +91,7 @@ def face_encoding(face: np.ndarray) -> Optional[np.ndarray]:
     return encoding[0]
 
 
-def recognize_face(face: np.ndarray, encodings: List[np.ndarray], ids: List[str]) -> Union[None, str, int]:
+def recognize_face(face: np.ndarray, encodings: List[np.ndarray], ids: np.ndarray) -> Union[None, str, int]:
     if len(encodings) == 0:
         return None
     encoding = face_encoding(face)
@@ -247,7 +243,7 @@ class FaceRecognizer:
         ids: List[Union[None, str, int]] = []
         frames: List[Union[Frame]] = []
         for face in faces:
-            label = recognize_face(face.frame, self.encodings, self.ids)
+            label = recognize_face(face.frame, self.encodings, np.array(self.ids))
             ids.append(label)
             frames.append(face)
         return zip(ids, frames)

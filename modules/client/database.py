@@ -1,6 +1,6 @@
 import pymongo.errors
 
-import data
+from modules.client import data
 
 mongo_remote_url = f"mongodb://{data.config['mongo']['username']}:{data.config['mongo']['password']}@" \
                    f"{data.config['mongo']['host']}:{data.config['mongo']['port']}"

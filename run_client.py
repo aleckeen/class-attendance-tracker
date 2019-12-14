@@ -1,16 +1,12 @@
-from pathlib import Path
-
-import sys
 import os
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
-sys.path.append(str(Path(os.getcwd()).parents[0].joinpath("modules")))
 
 from typing import Dict, Any, List
 
-import connection
-import data
-import database
+from modules.client import connection
+from modules.client import data
+from modules.client import database
 
 import datetime
 import json

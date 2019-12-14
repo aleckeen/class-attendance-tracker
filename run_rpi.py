@@ -1,17 +1,13 @@
-from pathlib import Path
-
-import sys
 import os
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
-sys.path.append(str(Path(os.getcwd()).parents[0].joinpath("modules")))
 
 from enum import Enum, auto
 
-import camera
-import connection
-import database
-from utils import info
+from modules.rpi import camera
+from modules.rpi import connection
+from modules.rpi import database
+from modules.utils import info
 
 
 class Job(Enum):
@@ -24,7 +20,7 @@ CURRENT_JOB = Job.DETECT_STUDENTS
 
 
 def shutdown():
-    info("[RPI] Exiting")
+    info("[rpi] Exiting")
     camera.report()
 
 
