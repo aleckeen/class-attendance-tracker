@@ -12,12 +12,11 @@ students_info = tinydb.TinyDB(data.KNOWN_FACES_INFO_PATH)
 
 
 def sync_database():
-    success, client = get_mongo_client(mongo_remote_url)
+    success, db = get_mongo_client(mongo_remote_url)
     info("[Database] Syncing the local database.")
     if not success:
         info("[Database] Cannot sync the local database, server is unavailable.")
         return
-    db = client.get_database("class-attendance-tracker")
     students_collection = db.get_collection("students")
     ids = []
     for student in students_collection.find({}, {"face": 0}):

@@ -89,22 +89,23 @@ class StudentDetector:
         self.connect_to_db()
 
     def connect_to_db(self):
-        info("[Database] Attempting to connect to the database.")
+        info("[Detector] Attempting to connect to the database.")
         self.is_connecting = True
         success, db = get_mongo_client(database.mongo_remote_url)
         if success:
-            info("[Database] Connection successful.")
+            info("[Detector] Database connection is successful.")
             self.reports_col = db.get_collection("reports")
             self.is_connected = True
         else:
-            info("[Database] Connection failed.")
+            info("[Detector] Database connection failed.")
             self.is_connected = False
         self.is_connecting = False
 
     def detect_students(self):
         frame = current_frame.copy()
         faces = vision.FaceDetector.opencv(frame)
-        info(f"[Detector] Found {len(faces)} face(s).")
+        if len(faces) > 0:
+            info(f"[Detector] Found {len(faces)} face(s).")
         for student_id, face in recognizer.recognize_threaded(faces):
             if student_id == -1:
                 student_id = "unknown"
