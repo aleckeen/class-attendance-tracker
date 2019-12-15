@@ -54,9 +54,9 @@ should work with other versions as well.
   `$ sudo pip3 install pytz face_recognition tinydb`  
 
 * Run the application.  
-  `$ python3 RPI/main.py`  
+  `$ python3 run_rpi.py`  
 
-* This first run will generate a _config.json_ file in the _RPI/data_
+* This first run will generate a _config.json_ file in the _data/rpi_
   directory. Go there and change the config settings.  
   > If there are any _null_ values in the config file, application
   will raise an error.
@@ -68,14 +68,14 @@ so we can add students and receive reports. Installation is pretty straightforwa
 > Client application sometimes crashes. If that happens just relaunch it.  
 
 * Install needed dependencies.  
-  `$ pip3 install pymongo pytz`  
+  `$ pip3 install pymongo pytz pillow`  
   > I recommend using a virtual environment since there are
   no packages that would cause trouble later.
 
 * Run the application.  
-  `$ python3 client/main.py`  
+  `$ python3 run_client.py`  
 
-* This first run will generate a _config.json_ file in the _client/data_
+* This first run will generate a _config.json_ file in the _data/client_
   directory. Go there and change the config settings.  
   > If there are any _null_ values in the config file, application
   will raise an error.
@@ -90,9 +90,9 @@ Server allows us to connect the clients to the Raspberry Pis.
   no packages that would cause trouble later.
 
 * Run the application.  
-  `$ python3 server/main.py`  
+  `$ python3 run_server.py`  
 
-* This first run will generate a _config.json_ file in the _server/data_
+* This first run will generate a _config.json_ file in the _data/server_
   directory. Go there and change the config settings.  
   > If there are any _null_ values in the config file, application
   will raise an error.
