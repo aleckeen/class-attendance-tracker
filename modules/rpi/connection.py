@@ -26,6 +26,7 @@ class Client(networking.Client):
                 camera.scan_face()
             elif req == "ALIVE":
                 self.send("OK")
+                info("[PING] Alive.")
 
 
 client = Client(networking.create_tcp_socket())
@@ -60,6 +61,3 @@ def recv_from_server():
         t = threading.Thread(target=client.respond_to_server)
         t.daemon = True
         t.start()
-
-
-recv_from_server()

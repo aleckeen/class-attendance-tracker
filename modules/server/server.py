@@ -42,12 +42,10 @@ class Client(networking.Client):
             elif req == "CAMERAS":
                 info(f"[Server] CAMERAS request from {self.sock_name}")
                 self.server.check_alive(Role.Role_Camera)
-                res = {"cameras": []}
+                res = {"pi-id": [], "location": []}
                 for cam in self.server.get_role(Role.Role_Camera):
-                    res['cameras'].append({
-                        "location": cam.location,
-                        "camera-id": cam.pi_id
-                    })
+                    res["pi-id"].append(cam.pi_id)
+                    res["location"].append(cam.location)
                 self.send(json.dumps(res))
             elif req.startswith("BIND"):
                 info(f"[Server] BIND request from {self.sock_name}")

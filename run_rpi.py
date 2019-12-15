@@ -19,6 +19,7 @@ def main():
     database.sync_database()
     camera.update_recognizer()
     connection.connect_to_server()
+    connection.recv_from_server()
     detector.start()
 
 

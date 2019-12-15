@@ -107,25 +107,21 @@ class StudentDetector:
         if len(faces) > 0:
             info(f"[Detector] Found {len(faces)} face(s).")
         for student_id, face in recognizer.recognize_threaded(faces):
-            if student_id == -1:
-                student_id = "unknown"
-            elif student_id is None:
-                student_id = "recognition-failure"
-            else:
+            if isinstance(student_id, str):
                 student_id = bson.ObjectId(student_id)
-            timestamp = datetime.datetime.now(tz=data.tz)
-            self.reports.append({
-                "pi-id": data.config["pi"]["pi-id"],
-                "location": data.config["pi"]["location"],
-                "student-id": student_id,
-                "timestamp": timestamp
-            })
-            info(f"[Detector] Detected a student with database-id {student_id}.")
-            if data.config["settings"]["save-images"]:
-                path = f"{data.DETECTED_FACES_PATH}/{student_id}"
-                if not os.path.isdir(path):
-                    os.mkdir(path)
-                face.save(f"{path}/{timestamp}.jpg")
+                timestamp = datetime.datetime.now(tz=data.tz)
+                self.reports.append({
+                    "pi-id": data.config["pi"]["pi-id"],
+                    "location": data.config["pi"]["location"],
+                    "student-id": student_id,
+                    "timestamp": timestamp
+                })
+                info(f"[Detector] Detected a student with database-id {student_id}.")
+                if data.config["settings"]["save-images"]:
+                    path = f"{data.DETECTED_FACES_PATH}/{student_id}"
+                    if not os.path.isdir(path):
+                        os.mkdir(path)
+                    face.save(f"{path}/{timestamp}.jpg")
 
     def start(self):
         while self.work:

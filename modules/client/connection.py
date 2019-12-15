@@ -1,3 +1,5 @@
+import json
+
 from modules import networking
 from modules.client import data
 
@@ -29,6 +31,12 @@ def connect_to_server():
     client.send("CLIENT")
     is_connected_server = True
     print("[Client] Server connection is successful.")
+
+
+def get_cameras():
+    client.send("CAMERAS")
+    res = client.recv()
+    return json.loads(res)
 
 
 connect_to_server()

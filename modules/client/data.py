@@ -35,7 +35,17 @@ CONFIG_TEMPLATE = {
     "settings": {
         "help": "Data to be used by the application internally.",
         "data": {
-            "timezone": {"default": "UTC", "help": "Timezone of where you live."}
+            "timezone": {"default": "UTC", "help": "Timezone of where you live."},
+            "hours": {"default": [
+                "08:10 08:50",
+                "09:00 09:40",
+                "09:50 10:30",
+                "10:40 11:20",
+                "11:30 12:10",
+                "12:55 13:35",
+                "13:45 14:25",
+                "14:35 15:15"
+            ], "help": "Starting and finishing times of classes."}
         }
     }
 }
