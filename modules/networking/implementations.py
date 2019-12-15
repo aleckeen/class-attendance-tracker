@@ -1,14 +1,16 @@
 import concurrent.futures.thread
 
 import socket
+import base64
 from enum import Enum, auto
 from typing import Tuple, List, Optional, Callable
 
 
 def send(tcp_socket: socket.socket, data: str, encoding: str = "UTF-8", header_len: int = 16):
-    data_len = str(len(data)).zfill(header_len)
-    data = f"{data_len}{data}"
-    tcp_socket.sendall(data.encode(encoding=encoding))
+    data = base64.b64encode(data.encode(encoding=encoding))
+    data_len = str(len(data)).zfill(header_len).encode(encoding=encoding)
+    data = data_len + data
+    tcp_socket.sendall(data)
 
 
 def recv(tcp_socket: socket.socket, encoding: str = "UTF-8", header_len: int = 16) -> Optional[str]:
@@ -20,7 +22,7 @@ def recv(tcp_socket: socket.socket, encoding: str = "UTF-8", header_len: int = 1
     data = tcp_socket.recv(data_len)
     if not data:
         return None
-    data = data.decode(encoding=encoding)
+    data = base64.b64decode(data).decode(encoding=encoding)
     return data
 
 
