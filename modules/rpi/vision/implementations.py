@@ -1,6 +1,4 @@
-# Author:
-# auri@sol <omerfarukcavus@outlook.com>
-
+import concurrent.futures.process
 import os
 from enum import Enum
 
@@ -16,7 +14,6 @@ from typing import List, Tuple, Optional, Union, Iterator
 HAARCASCADES = '/usr/share/opencv/haarcascades'
 RESOLUTION_PICAMERA = (2560, 1920)
 RESOLUTION_OPENCV = (1920, 1080)
-TIMEZONE = 'Europe/Istanbul'
 
 # OpenCV
 face_cascade = cv2.CascadeClassifier(f'{HAARCASCADES}/haarcascade_frontalface_default.xml')
@@ -95,7 +92,7 @@ def face_encoding(face: np.ndarray) -> Optional[np.ndarray]:
     return encoding[0]
 
 
-def recognize_face(face: np.ndarray, encodings: List[np.ndarray], ids: List[str]) -> Union[None, str, int]:
+def recognize_face(face: np.ndarray, encodings: List[np.ndarray], ids: np.ndarray) -> Union[None, str, int]:
     if len(encodings) == 0:
         return None
     encoding = face_encoding(face)
@@ -243,11 +240,21 @@ class FaceRecognizer:
             self.encodings.append(encoding)
             self.ids.append(id_)
 
-    def recognize(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
-        ids: List[Union[None, str, int]] = []
-        frames: List[Union[Frame]] = []
+    def recognize_one(self, face: Frame) -> Tuple[Union[None, str, int], Frame]:
+        label = recognize_face(face.frame, self.encodings, np.array(self.ids))
+        return label, face
+
+    def recognize_many(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
+        res = []
         for face in faces:
-            label = recognize_face(face.frame, self.encodings, self.ids)
-            ids.append(label)
-            frames.append(face)
-        return zip(ids, frames)
+            label = self.recognize_one(face)
+            res.append(label)
+        return iter(res)
+
+    def recognize_threaded(self, faces: List[Frame]) -> Iterator[Tuple[Union[None, str, int], Frame]]:
+        with concurrent.futures.process.ProcessPoolExecutor() as executor:
+            labels = [executor.submit(self.recognize_one, face) for face in faces]
+            res = []
+            for label in concurrent.futures.as_completed(labels):
+                res.append(label.result())
+            return iter(res)

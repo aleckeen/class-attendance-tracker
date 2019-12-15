@@ -3,10 +3,10 @@ import json
 from typing import List, Optional, Tuple
 from enum import Enum
 
-import data
-import networking
-import database
-from utils import info
+from modules.server import data
+from modules import networking
+from modules.server import database
+from modules.utils import info
 
 
 class Role(Enum):
@@ -14,7 +14,7 @@ class Role(Enum):
     Role_Camera = "CAMERA"
 
 
-class Client(networking.server.Client):
+class Client(networking.Client):
     role: Role
     server: 'Server'
     sock_name: Tuple[str, int]
@@ -42,12 +42,10 @@ class Client(networking.server.Client):
             elif req == "CAMERAS":
                 info(f"[Server] CAMERAS request from {self.sock_name}")
                 self.server.check_alive(Role.Role_Camera)
-                res = {"cameras": []}
+                res = {"pi-id": [], "location": []}
                 for cam in self.server.get_role(Role.Role_Camera):
-                    res['cameras'].append({
-                        "location": cam.location,
-                        "camera-id": cam.pi_id
-                    })
+                    res["pi-id"].append(cam.pi_id)
+                    res["location"].append(cam.location)
                 self.send(json.dumps(res))
             elif req.startswith("BIND"):
                 info(f"[Server] BIND request from {self.sock_name}")
@@ -72,12 +70,12 @@ class Client(networking.server.Client):
         self.recv()
 
 
-class Server(networking.server.Server):
+class Server(networking.Server):
     clients: List[Client] = []
 
     def new_client(self, client: Client) -> bool:
         client.server = self
-        client.sock_name = client.tcp_socket.getsockname()
+        client.sock_name = client.tcp_socket.getpeername()
         username = client.recv()
         password = client.recv()
         info(
@@ -86,7 +84,7 @@ class Server(networking.server.Server):
         if len(res) != 1:
             client.send("!")
             info(f"[Server] Client connection failed. Wrong password or username. "
-                 f"address: {client.tcp_socket.getsockname()}")
+                 f"address: {client.sock_name}")
             return False
         info(f"[Server] Client connection successful. address: {client.sock_name}")
         client.send("OK")

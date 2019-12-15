@@ -115,4 +115,4 @@ class Server:
                 self.clients.append(client)
 
     def new_client(self, client: Client) -> bool:
-        return True
+        pass

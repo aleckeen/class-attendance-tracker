@@ -1,11 +1,12 @@
 import pytz
 
-import config as _config
+from modules import config as config_manager
 
-CONFIG_PATH = "data/config.json"
+CONFIG_PATH = "data/client/config.json"
 
 FOLDERS = [
-    "data"
+    "data",
+    "data/client"
 ]
 
 FILES = [
@@ -34,16 +35,26 @@ CONFIG_TEMPLATE = {
     "settings": {
         "help": "Data to be used by the application internally.",
         "data": {
-            "timezone": {"default": "UTC", "help": "Timezone of where you live."}
+            "timezone": {"default": "UTC", "help": "Timezone of where you live."},
+            "hours": {"default": [
+                "08:10 08:50",
+                "09:00 09:40",
+                "09:50 10:30",
+                "10:40 11:20",
+                "11:30 12:10",
+                "12:55 13:35",
+                "13:45 14:25",
+                "14:35 15:15"
+            ], "help": "Starting and finishing times of classes."}
         }
     }
 }
 
-_config.create_folders(FOLDERS)
-_config.create_files(FILES)
-config = _config.load_config(CONFIG_PATH)
-res = _config.check_config(config, CONFIG_TEMPLATE)
-_config.save_config(CONFIG_PATH, config)
+config_manager.create_folders(FOLDERS)
+config_manager.create_files(FILES)
+config = config_manager.load_config(CONFIG_PATH)
+res = config_manager.check_config(config, CONFIG_TEMPLATE)
+config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")

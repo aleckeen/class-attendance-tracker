@@ -1,14 +1,16 @@
 import tinydb
-import utils
-import config as _config
+
+from modules import utils
+from modules import config as config_manager
 import pytz
 
-CONFIG_PATH = "data/config.json"
-LOG_PATH = "data/log.json"
-USERS_PATH = "data/users.json"
+CONFIG_PATH = "data/server/config.json"
+LOG_PATH = "data/server/log.json"
+USERS_PATH = "data/server/users.json"
 
 FOLDERS = [
-    "data"
+    "data",
+    "data/server"
 ]
 
 FILES = [
@@ -33,11 +35,11 @@ CONFIG_TEMPLATE = {
     }
 }
 
-_config.create_folders(FOLDERS)
-_config.create_files(FILES)
-config = _config.load_config(CONFIG_PATH)
-res = _config.check_config(config, CONFIG_TEMPLATE)
-_config.save_config(CONFIG_PATH, config)
+config_manager.create_folders(FOLDERS)
+config_manager.create_files(FILES)
+config = config_manager.load_config(CONFIG_PATH)
+res = config_manager.check_config(config, CONFIG_TEMPLATE)
+config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")

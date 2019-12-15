@@ -1,4 +1,5 @@
-import data
+from modules.server import data
+
 import tinydb
 
 users = tinydb.TinyDB(data.USERS_PATH, indent=2)
