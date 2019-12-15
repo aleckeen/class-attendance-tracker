@@ -1,3 +1,4 @@
+import sys
 import pytz
 
 from modules import config as config_manager
@@ -58,6 +59,6 @@ config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")
-    exit(1)
+    sys.exit(1)
 
 tz = pytz.timezone(config["settings"]['timezone'])

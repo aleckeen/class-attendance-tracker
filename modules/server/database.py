@@ -1,5 +1,6 @@
 from modules.server import data
 
+import sys
 import tinydb
 
 users = tinydb.TinyDB(data.USERS_PATH, indent=2)
@@ -13,4 +14,4 @@ if len(users.all()) == 0:
         users.insert({"username": username, "password": password})
     else:
         print("Exiting. Please add user.")
-        exit(1)
+        sys.exit(1)

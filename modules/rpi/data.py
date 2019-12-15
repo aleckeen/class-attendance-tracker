@@ -1,7 +1,8 @@
+import sys
+import pytz
+
 from modules import utils
 from modules import config as config_manager
-
-import pytz
 
 CONFIG_PATH = "data/rpi/config.json"
 DETECTED_FACES_PATH = "data/rpi/detected_faces"
@@ -63,7 +64,7 @@ config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")
-    exit(1)
+    sys.exit(1)
 
 tz = pytz.timezone(config["settings"]['timezone'])
 utils.tz = tz

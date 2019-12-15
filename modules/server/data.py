@@ -1,8 +1,9 @@
+import sys
 import tinydb
+import pytz
 
 from modules import utils
 from modules import config as config_manager
-import pytz
 
 CONFIG_PATH = "data/server/config.json"
 LOG_PATH = "data/server/log.json"
@@ -43,7 +44,7 @@ config_manager.save_config(CONFIG_PATH, config)
 
 if res:
     print(f"Please fill in null values in {CONFIG_PATH}")
-    exit(1)
+    sys.exit(1)
 
 log_db = tinydb.TinyDB(LOG_PATH)
 tz = pytz.timezone(config["settings"]['timezone'])
