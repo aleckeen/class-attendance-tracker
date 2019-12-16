@@ -45,7 +45,8 @@ CONFIG_TEMPLATE = {
                 "11:30 12:10",
                 "12:55 13:35",
                 "13:45 14:25",
-                "14:35 15:15"
+                "14:35 15:15",
+                "00:00 23:59"
             ], "help": "Starting and finishing times of classes."}
         }
     }
