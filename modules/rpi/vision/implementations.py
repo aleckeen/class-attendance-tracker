@@ -235,10 +235,10 @@ class FaceRecognizer:
             if encoding is None:
                 print(f"An error occurred during the encoding of the face labeled {id_}")
                 print("Please make sure the image is proper")
-                raise EncoderEncodeError(f"Failed to recognize face labeled {id_}")
-
-            self.encodings.append(encoding)
-            self.ids.append(id_)
+                # raise EncoderEncodeError(f"Failed to recognize face labeled {id_}")
+            else:
+                self.encodings.append(encoding)
+                self.ids.append(id_)
 
     def recognize_one(self, face: Frame) -> Tuple[Union[None, str, int], Frame]:
         label = recognize_face(face.frame, self.encodings, np.array(self.ids))
